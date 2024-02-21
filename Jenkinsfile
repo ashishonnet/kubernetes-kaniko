@@ -29,21 +29,23 @@ podTemplate(yaml: '''
 ''') {
   node(POD_LABEL) {
     stage('Get a Maven project') {
-      git url: 'https://github.com/ashishonnet/kubernetes-kaniko.git', branch: 'main'
+      git url: 'https://github.com/ashishonnet/simple-java-maven-app.git', branch: 'main'
       container('maven') {
         stage('Build a Maven project') {
           sh '''
-          echo pwd
+          mvn -B -DskipTests clean package
           '''
         }
       }
     }
 
-    stage('Build Java Image') {
+    stage('Create Image') {
       container('kaniko') {
-        stage('Build a Go project') {
+        stage('Create Image & Push to Container Repository') {
           sh '''
-            /kaniko/executor --context `pwd` --destination ashishonnet/kaniko-demo-image:2.0
+            /kaniko/executor --dockerfile `pwd`/Dockerfile \
+            --context `pwd` \
+            --destination ashishonnet/kaniko-java-app-image:${BUILD_NUMBER}
           '''
         }
       }
