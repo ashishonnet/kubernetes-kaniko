@@ -41,7 +41,7 @@ podTemplate(yaml: '''
 
     stage('Create Image') {
       container('kaniko') {
-        stage('Create Image & Push to Container Repository') {
+        stage('Push Image to Container Repository') {
           sh '''
             /kaniko/executor --dockerfile `pwd`/Dockerfile \
             --context `pwd` \
