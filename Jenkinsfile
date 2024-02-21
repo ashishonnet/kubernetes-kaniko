@@ -29,7 +29,7 @@ podTemplate(yaml: '''
 ''') {
   node(POD_LABEL) {
     stage('Get a Maven project') {
-      git url: 'https://github.com/ashishonnet/simple-java-maven-app.git', branch: 'main'
+      git url: 'https://github.com/ashishonnet/kubernetes-kaniko.git', branch: 'main'
       container('maven') {
         stage('Build a Maven project') {
           sh '''
